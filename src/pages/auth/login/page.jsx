@@ -34,7 +34,7 @@ const LoginPage = () => {
         <h1 className="text-5xl font-bold mb-4">Logo</h1>
         <h2 className="text-2xl">The first finance helper in Algeria!</h2>
       </div>
-      <Card className="min-w-96">
+      <Card className="min-w-[400px] p-2">
         <CardHeader className="text-center">
           <CardTitle className="text-xl">Welcome back</CardTitle>
           <CardDescription>Login to your account and enjoy!</CardDescription>
