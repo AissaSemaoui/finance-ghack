@@ -3,9 +3,12 @@ import { Outlet, createBrowserRouter } from "react-router-dom";
 import AuthLayout from "@/layouts/AuthLayout";
 import HomePage from "@/pages/home/page";
 import LoginPage from "@/pages/auth/login/page";
+import RegisterPage from "@/pages/auth/register/page";
+import DashboardPage from "@/pages/dashboard/page";
 
 import { paths } from "@/configuration";
-import RegisterPage from "./pages/auth/register/page";
+import ChatsPage from "./pages/dashboard/chats/page";
+import AiChatPage from "./pages/dashboard/ai-chat/page";
 
 const routePaths = [
   {
@@ -17,7 +20,20 @@ const routePaths = [
     ),
     children: [
       { path: paths.home, element: <HomePage /> },
-      { path: paths.dashboard, element: <h1>dashboard</h1> },
+      {
+        path: paths.dashboard,
+        element: <DashboardPage />,
+        children: [
+          {
+            path: paths.chats,
+            element: <ChatsPage />,
+          },
+          {
+            path: paths.aiChat,
+            element: <AiChatPage />,
+          },
+        ],
+      },
     ],
   },
   {
