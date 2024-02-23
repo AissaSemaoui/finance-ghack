@@ -9,6 +9,7 @@ import DashboardPage from "@/pages/dashboard/page";
 import { paths } from "@/configuration";
 import ChatsPage from "./pages/dashboard/chats/page";
 import AiChatPage from "./pages/dashboard/ai-chat/page";
+import Expertpage from "./pages/dashboard/expert/page";
 
 const routePaths = [
   {
@@ -31,6 +32,10 @@ const routePaths = [
           {
             path: paths.aiChat,
             element: <AiChatPage />,
+          },
+          {
+            path: paths.expert,
+            element: <Expertpage/>,
           },
         ],
       },
