@@ -73,7 +73,7 @@ export function CardsChat() {
     },
     {
       role: "user",
-      content: "Hey, I'm having trouble with my account.",
+      content: "Hey, I'm having trouble with my finance.",
     },
     {
       role: "agent",
@@ -81,7 +81,7 @@ export function CardsChat() {
     },
     {
       role: "user",
-      content: "I can't log in.",
+      content: "I don't know how to manage my expenses",
     },
   ]);
   const [input, setInput] = React.useState("");
@@ -118,7 +118,7 @@ export function CardsChat() {
             </Tooltip>
           </TooltipProvider>
         </CardHeader>
-        <CardContent className="flex-1">
+        <CardContent className="flex-1 overflow-y-auto">
           <div className="space-y-4">
             {messages.map((message, index) => (
               <div

@@ -2,7 +2,7 @@ import { CardsChat } from "@/components/chatbot";
 
 const AiChatPage = () => {
   return (
-    <div className="h-full">
+    <div className="h-full w-full">
       <CardsChat />
     </div>
   );

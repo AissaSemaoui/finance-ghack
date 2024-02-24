@@ -1,4 +1,6 @@
+import axios from "axios";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 import {
   Card,
@@ -19,14 +21,34 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { paths } from "@/configuration";
+import { useState } from "react";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+
   const form = useForm({
     defaultValues: {
-      email: "",
+      userName: "",
       password: "",
     },
   });
+
+  const loginUserMutation = async (values) => {
+    axios.post("/api/login", values);
+  };
+
+  const onSubmit = async (data) => {
+    try {
+      setIsLoading(true);
+      await loginUserMutation(data);
+    } catch (err) {
+      console.log(err?.message);
+    } finally {
+      setIsLoading(false);
+      navigate(paths.dashboard);
+    }
+  };
 
   return (
     <div className="w-full justify-around items-center flex gap-8">
@@ -41,16 +63,13 @@ const LoginPage = () => {
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(console.log)}
-              className="space-y-4"
-            >
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <FormField
                 control={form.control}
-                name="email"
+                name="userName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>User Name</FormLabel>
                     <FormControl>
                       <Input placeholder="example@gmail.com" {...field} />
                     </FormControl>
@@ -75,7 +94,9 @@ const LoginPage = () => {
                   </FormItem>
                 )}
               />
-              <Button className="w-full">Login</Button>
+              <Button className="w-full">
+                {isLoading ? "Loading..." : "Login"}
+              </Button>
             </form>
           </Form>
           <p className="text-sm mt-2">

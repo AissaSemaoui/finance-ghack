@@ -1,4 +1,6 @@
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 import {
   Card,
@@ -26,15 +28,56 @@ import {
 } from "@/components/ui/select";
 import { Link } from "react-router-dom";
 import { paths } from "@/configuration";
+import { useState } from "react";
 
 const RegisterPage = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+
   const form = useForm({
     defaultValues: {
+      name: "",
       email: "",
       password: "",
       user_type: "user",
     },
   });
+
+  const registerUserMutation = async (values) =>
+    axios.post("/api/register", {
+      userName: values.name,
+      userPassword: values.password,
+      email: values.email,
+    });
+
+  const registerExpertMutation = async (values) =>
+    axios.post("/api/admin/registerExpert", {
+      expertName: values.name,
+      expertPassword: values.password,
+      expertEmail: values.email,
+      expertImage: "",
+      expertWorkingAt: "Finance Consultancy",
+    });
+
+  const onSubmit = async (values) => {
+    try {
+      setIsLoading(true);
+      const { user_type, ...data } = values;
+
+      console.log(data, user_type);
+
+      if (user_type === "expert") {
+        return await registerExpertMutation(data);
+      }
+
+      return await registerUserMutation(data);
+    } catch (err) {
+      console.log("we just got an error!", err?.message);
+    } finally {
+      setIsLoading(false);
+      navigate(paths.dashboard);
+    }
+  };
 
   return (
     <div className="w-full justify-around items-center flex gap-8">
@@ -49,10 +92,20 @@ const RegisterPage = () => {
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(console.log)}
-              className="space-y-4"
-            >
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Full Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="example@gmail.com" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="email"
@@ -100,7 +153,7 @@ const RegisterPage = () => {
                       </FormControl>
                       <SelectContent>
                         <SelectItem value="user">Business Owner</SelectItem>
-                        <SelectItem value="consultant">
+                        <SelectItem value="expert">
                           Finance Consultant
                         </SelectItem>
                       </SelectContent>
@@ -109,7 +162,9 @@ const RegisterPage = () => {
                   </FormItem>
                 )}
               />
-              <Button className="w-full">Login</Button>
+              <Button className="w-full">
+                {isLoading ? "Loading..." : "Register"}
+              </Button>
             </form>
           </Form>
           <p className="text-sm mt-2">
