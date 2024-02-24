@@ -1,7 +1,17 @@
+import { useNavigate } from "react-router-dom";
+
 import { Button } from "@/components/ui/button";
 import hero from "./hero.svg";
+import { useEffect } from "react";
+import { paths } from "@/configuration";
 
 const HomePage = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    navigate(paths.auth.login);
+  }, [navigate]);
+
   return (
     <div className="px-6">
       <div className="py-6 flex flex-row justify-between">
@@ -21,11 +31,9 @@ const HomePage = () => {
             <Button>Join now</Button>
           </div>
         </div>
-        <img src={hero} alt=""/>
+        <img src={hero} alt="" />
       </div>
-      <div>
-
-      </div>
+      <div></div>
     </div>
   );
 };

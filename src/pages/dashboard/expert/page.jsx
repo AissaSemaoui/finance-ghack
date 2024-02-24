@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { buttonVariants } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import picture from "./pic.svg";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { Link } from "react-router-dom";
 import { paths } from "@/configuration";
 import clsx from "clsx";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import picture from "./pic.svg";
 
 const Expertpage = () => {
   const [searchTerm, setSearchTerm] = useState("");
